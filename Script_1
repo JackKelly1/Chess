@@ -1,0 +1,126 @@
+import pygame
+from pygame.locals import *
+from Piece_class import Piece
+
+# set colour tuples as variables
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GRAY = (127, 127, 127)
+RED = (255, 0, 0)
+LIGHT_BROWN = (159, 129, 112)
+
+def create_chess_board_squares():
+    chess_board_squares = []
+    for i in range(8):
+        for j in range(8):
+            if i%2==0:
+                if j%2 == 0:
+                    color = WHITE
+                else:
+                    color = LIGHT_BROWN
+            else:
+                if j%2 == 0:
+                    color = LIGHT_BROWN
+                else:
+                    color = WHITE
+            x_loc = 100+(100*j)
+            y_loc = 100+(100*i)
+            chess_board_squares.append((Rect(x_loc, y_loc, 100, 100), color))
+    return chess_board_squares
+
+# run the function and obtain list of chess board squares as Rects
+chess_board_squares = create_chess_board_squares()
+
+# set screen size
+screen = pygame.display.set_mode((1000, 1000))
+
+pieces_names = ['Pawn', 'Knight', 'Bishop', 'Rook', 'Queen', 'King']
+# store information about the location, colour, piece_type and whether a piece has been captured
+black_piece_dict = {}
+# store all the images
+black_piece_images_dict = {}
+# store all the Rects
+black_piece_rects_dict = {}
+
+for piece in pieces_names:
+    black_piece_dict[piece] = Piece(20, 20, 'BLACK', piece)
+    img_temp_ = pygame.image.load(f'/Users/jackkelly/OneDrive/Python_Projects/Chess/Pieces/Black_{piece}.png')
+    black_piece_images_dict['img_' + piece] = pygame.transform.scale(img_temp_, (100, 100))
+    black_piece_images_dict['img_' + piece].convert()
+    black_piece_rects_dict['rect_' + piece] = black_piece_images_dict['img_' + piece].get_rect()
+    # change this so all pieces are in their right starting places
+    black_piece_rects_dict['rect_' + piece].center = 20, 20
+
+# initally assert none of the pieces as moving
+moving_Pawn = False
+moving_Bishop = False
+moving_Knight = False
+moving_Rook = False
+moving_Queen = False
+moving_King = False
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            running = False
+
+        elif event.type == MOUSEBUTTONDOWN:
+            # if the mouse is within the image (collidepoint)
+            if black_piece_rects_dict['rect_Pawn'].collidepoint(event.pos):
+                moving_Pawn = True
+            elif black_piece_rects_dict['rect_Knight'].collidepoint(event.pos):
+                moving_Knight = True
+            elif black_piece_rects_dict['rect_Bishop'].collidepoint(event.pos):
+                moving_Bishop = True
+            elif black_piece_rects_dict['rect_Rook'].collidepoint(event.pos):
+                moving_Rook = True
+            elif black_piece_rects_dict['rect_Queen'].collidepoint(event.pos):
+                moving_Queen = True
+            elif black_piece_rects_dict['rect_King'].collidepoint(event.pos):
+                moving_King = True
+
+        # if button is up we don't want any moving pieces
+        elif event.type == MOUSEBUTTONUP:
+            moving_Pawn = False
+            moving_Bishop = False
+            moving_Knight = False
+            moving_Rook = False
+            moving_Queen = False
+            moving_King = False
+
+        elif event.type == MOUSEMOTION and moving_Pawn:
+            black_piece_rects_dict['rect_Pawn'].move_ip(event.rel)
+
+        elif event.type == MOUSEMOTION and moving_Knight:
+            black_piece_rects_dict['rect_Knight'].move_ip(event.rel)
+
+        elif event.type == MOUSEMOTION and moving_Bishop:
+            black_piece_rects_dict['rect_Bishop'].move_ip(event.rel)
+        
+        elif event.type == MOUSEMOTION and moving_Rook:
+            black_piece_rects_dict['rect_Rook'].move_ip(event.rel)
+
+        elif event.type == MOUSEMOTION and moving_Queen:
+            black_piece_rects_dict['rect_Queen'].move_ip(event.rel)
+
+        elif event.type == MOUSEMOTION and moving_King:
+            black_piece_rects_dict['rect_King'].move_ip(event.rel)
+
+    # give screen a grey background
+    screen.fill(GRAY)
+
+    # draw each of the squares of the board
+    for i in range(len(chess_board_squares)):
+        square_coords, square_color = chess_board_squares[i]
+        pygame.draw.rect(screen, square_color, square_coords)
+
+    # attach the pieces to the red rectangles and draw
+    for piece in pieces_names:
+        screen.blit(black_piece_images_dict['img_' + piece], black_piece_rects_dict['rect_' + piece])
+        pygame.draw.rect(screen, BLACK, black_piece_rects_dict['rect_' + piece], 1)
+    
+    #update the display
+    pygame.display.update()
+
+pygame.quit()
