@@ -34,78 +34,90 @@ chess_board_squares = create_chess_board_squares()
 # set screen size
 screen = pygame.display.set_mode((1000, 1000))
 
+# row letters (used for pawns)
+row_letters = ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
+# knight bishop rook letters
+kbr_letters = ('q', 'k')
 def create_piece_instances():
     black_piece_dict = {}
     black_piece_images_dict = {}
     black_piece_rects_dict = {}
     # Pawns
-    for i in ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'):
-        black_piece_dict['Pawn_' + i] = PawnClass(20, 20, 'BLACK')
+    for i in range(len(row_letters)):
+        black_piece_dict['Pawn_' + row_letters[i]] = PawnClass(150+100*i, 750, 'BLACK')
         img_temp_ = pygame.image.load(f'/Users/jackkelly/OneDrive/Python_Projects/Chess/Pieces/Black_Pawn.png')
-        black_piece_images_dict['img_Pawn_' + i] = pygame.transform.scale(img_temp_, (100, 100))
-        black_piece_images_dict['img_Pawn_' + i].convert()
-        black_piece_rects_dict['rect_Pawn_' + i] = black_piece_images_dict['img_Pawn_' + i].get_rect()
-        black_piece_rects_dict['rect_Pawn_' + i].center = 20, 20
+        black_piece_images_dict['img_Pawn_' + row_letters[i]] = pygame.transform.scale(img_temp_, (100, 100))
+        black_piece_images_dict['img_Pawn_' + row_letters[i]].convert()
+        black_piece_rects_dict['rect_Pawn_' + row_letters[i]] = black_piece_images_dict['img_Pawn_' + row_letters[i]].get_rect()
+        black_piece_rects_dict['rect_Pawn_' + row_letters[i]].center = 150+100*i, 750
     # Knights
-    for i in ('q', 'k'):
-        black_piece_dict['Knight_' + i] = KnightClass(20, 20, 'Black')
+    for i in range(len(kbr_letters)):
+        black_piece_dict['Knight_' + kbr_letters[i]] = KnightClass(250+ 500*i, 850, 'Black')
         img_temp_ = pygame.image.load(f'/Users/jackkelly/OneDrive/Python_Projects/Chess/Pieces/Black_Knight.png')
-        black_piece_images_dict['img_Knight_' + i] = pygame.transform.scale(img_temp_, (100, 100))
-        black_piece_images_dict['img_Knight_' + i].convert()
-        black_piece_rects_dict['rect_Knight_' + i] = black_piece_images_dict['img_Knight_' + i].get_rect()
-        black_piece_rects_dict['rect_Knight_' + i].center = 20, 20
+        black_piece_images_dict['img_Knight_' + kbr_letters[i]] = pygame.transform.scale(img_temp_, (100, 100))
+        black_piece_images_dict['img_Knight_' + kbr_letters[i]].convert()
+        black_piece_rects_dict['rect_Knight_' + kbr_letters[i]] = black_piece_images_dict['img_Knight_' + kbr_letters[i]].get_rect()
+        black_piece_rects_dict['rect_Knight_' + kbr_letters[i]].center = 250+ 500*i, 850
     # Bishops
-    for i in ('q', 'k'):
-        black_piece_dict['Bishop_' + i] = BishopClass(20, 20, 'Black')
+    for i in range(len(kbr_letters)):
+        black_piece_dict['Bishop_' + kbr_letters[i]] = BishopClass(350+ 300*i, 850, 'Black')
         img_temp_ = pygame.image.load(f'/Users/jackkelly/OneDrive/Python_Projects/Chess/Pieces/Black_Bishop.png')
-        black_piece_images_dict['img_Bishop_' + i] = pygame.transform.scale(img_temp_, (100, 100))
-        black_piece_images_dict['img_Bishop_' + i].convert()
-        black_piece_rects_dict['rect_Bishop_' + i] = black_piece_images_dict['img_Bishop_' + i].get_rect()
-        black_piece_rects_dict['rect_Bishop_' + i].center = 20, 20
+        black_piece_images_dict['img_Bishop_' + kbr_letters[i]] = pygame.transform.scale(img_temp_, (100, 100))
+        black_piece_images_dict['img_Bishop_' + kbr_letters[i]].convert()
+        black_piece_rects_dict['rect_Bishop_' + kbr_letters[i]] = black_piece_images_dict['img_Bishop_' + kbr_letters[i]].get_rect()
+        black_piece_rects_dict['rect_Bishop_' + kbr_letters[i]].center = 350+ 300*i, 850
     # Rook
-    for i in ('q', 'k'):
-        black_piece_dict['Bishop_' + i] = RookClass(20, 20, 'Black')
+    for i in range(len(kbr_letters)):
+        black_piece_dict['Bishop_' + kbr_letters[i]] = RookClass(150 + 700*i, 850, 'Black')
         img_temp_ = pygame.image.load(f'/Users/jackkelly/OneDrive/Python_Projects/Chess/Pieces/Black_Rook.png')
-        black_piece_images_dict['img_Rook_' + i] = pygame.transform.scale(img_temp_, (100, 100))
-        black_piece_images_dict['img_Rook_' + i].convert()
-        black_piece_rects_dict['rect_Rook_' + i] = black_piece_images_dict['img_Rook_' + i].get_rect()
-        black_piece_rects_dict['rect_Rook_' + i].center = 20, 20
+        black_piece_images_dict['img_Rook_' + kbr_letters[i]] = pygame.transform.scale(img_temp_, (100, 100))
+        black_piece_images_dict['img_Rook_' + kbr_letters[i]].convert()
+        black_piece_rects_dict['rect_Rook_' + kbr_letters[i]] = black_piece_images_dict['img_Rook_' + kbr_letters[i]].get_rect()
+        black_piece_rects_dict['rect_Rook_' + kbr_letters[i]].center = 150 + 700*i, 850
     # Queen
-    black_piece_dict['Queen'] = QueenClass(20, 20, 'Black')
+    black_piece_dict['Queen'] = QueenClass(550, 850, 'Black')
     img_temp_ = pygame.image.load(f'/Users/jackkelly/OneDrive/Python_Projects/Chess/Pieces/Black_Queen.png')
     black_piece_images_dict['img_Queen'] = pygame.transform.scale(img_temp_, (100, 100))
     black_piece_images_dict['img_Queen'].convert()
     black_piece_rects_dict['rect_Queen'] = black_piece_images_dict['img_Queen'].get_rect()
-    black_piece_rects_dict['rect_Queen'].center = 20, 20
+    black_piece_rects_dict['rect_Queen'].center = 550, 850
     #King
-    black_piece_dict['King'] = KingClass(20, 20, 'Black')
+    black_piece_dict['King'] = KingClass(450, 850, 'Black')
     img_temp_ = pygame.image.load(f'/Users/jackkelly/OneDrive/Python_Projects/Chess/Pieces/Black_King.png')
     black_piece_images_dict['img_King'] = pygame.transform.scale(img_temp_, (100, 100))
     black_piece_images_dict['img_King'].convert()
     black_piece_rects_dict['rect_King'] = black_piece_images_dict['img_King'].get_rect()
-    black_piece_rects_dict['rect_King'].center = 20, 20
+    black_piece_rects_dict['rect_King'].center = 450, 850
 
     return black_piece_dict, black_piece_images_dict, black_piece_rects_dict
 
 black_piece_dict, black_piece_images_dict, black_piece_rects_dict = create_piece_instances()
 
 # initally assert none of the pieces as moving
-moving_Pawn_a = False
-moving_Pawn_b = False
-moving_Pawn_c = False
-moving_Pawn_d = False
-moving_Pawn_e = False
-moving_Pawn_f = False
-moving_Pawn_g = False
-moving_Pawn_h = False
-moving_Bishop_q = False
-moving_Bishop_k = False
-moving_Knight_q = False
-moving_Knight_k = False
-moving_Rook_q = False
-moving_Rook_k = False
-moving_Queen = False
-moving_King = False
+def initialise_no_moving_pieces():
+    moving_Pawn_a = False
+    moving_Pawn_b = False
+    moving_Pawn_c = False
+    moving_Pawn_d = False
+    moving_Pawn_e = False
+    moving_Pawn_f = False
+    moving_Pawn_g = False
+    moving_Pawn_h = False
+    moving_Bishop_q = False
+    moving_Bishop_k = False
+    moving_Knight_q = False
+    moving_Knight_k = False
+    moving_Rook_q = False
+    moving_Rook_k = False
+    moving_Queen = False
+    moving_King = False
+    return moving_Pawn_a, moving_Pawn_b, moving_Pawn_c, moving_Pawn_d, moving_Pawn_e, moving_Pawn_f, moving_Pawn_g,\
+        moving_Pawn_h, moving_Bishop_q, moving_Bishop_k, moving_Knight_q, moving_Knight_k, moving_Rook_q, moving_Rook_k,\
+        moving_Queen, moving_King
+
+moving_Pawn_a, moving_Pawn_b, moving_Pawn_c, moving_Pawn_d, moving_Pawn_e, moving_Pawn_f, moving_Pawn_g,\
+        moving_Pawn_h, moving_Bishop_q, moving_Bishop_k, moving_Knight_q, moving_Knight_k, moving_Rook_q, moving_Rook_k,\
+        moving_Queen, moving_King = initialise_no_moving_pieces()
 
 running = True
 while running:
@@ -234,3 +246,4 @@ while running:
     pygame.display.update()
 
 pygame.quit()
+
